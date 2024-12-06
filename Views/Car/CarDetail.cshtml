@@ -1,0 +1,69 @@
+@{
+    int index = 0;
+}
+@model TblPhuongTien
+
+@if (TempData["message"] != null)
+{
+    <p class="alert alert-primary">@TempData["message"]</p>
+}
+
+
+<div class="container">
+    <img src="~/@Model.sDuongDan" alt="" style="width: 100%; max-height: 500px; object-fit: cover;">
+    <div class="p-4">
+        <p class="fs-3 fw-bold">Tên xe: @Model.STenPhuongTien</p>
+        <p class="fs-4">Biển số: @Model.SBienSoXe</p>
+        <p class="fs-4">Loại xe: @Model.IMaLoaiPhuongTienNavigation.SLoaiPhuongTien</p>
+        <p class="fs-4">Giá thuê theo ngày: @Model.FGiaChoThue</p>
+        @if (Model.TblPhieuBaoTris.Count == 0)
+        {
+            <p class="fs-4">Chưa qua sửa chữa, bảo trì nào!!</p>
+        }
+        else
+        {
+            @foreach (var bt in @Model.TblPhieuBaoTris)
+            {
+                <p class="fs-4">Lần bảo trì: @(++index)</p>
+                <p class="fs-4">Nội dung bảo trì: "<span class="fst-italic">@bt.SGhiChu</span>"</p>
+                <p class="fs-4">Lúc: @bt.DThoiGian</p>
+            }
+        }
+        @if (Model.sTrangThai == false)
+        {
+            <p class="alert alert-success">Có sẵn</p>
+        }
+        else
+        {
+            <p class="alert alert-danger">Đã được thuê</p>
+        }
+    </div>
+
+    <div class="text-end">
+        @if (Model.sTrangThai == true)
+        {
+            <button class="btn btn-outline-primary" disabled>Xác nhận thuê</button>
+        }
+        else
+        {
+            <button class="btn btn-outline-primary" onclick="check()">Xác nhận thuê</button>
+        }
+
+    </div>
+
+    <form method="post" id="form_thue" action="" hidden>
+        <input type="text" value="@Model.IMaPhuongTien" name="id">
+    </form>
+
+
+</div>
+
+<script>
+    console.log("fsdf");
+    console.log("fsdf");
+    function check() {
+        if (confirm("Bạn có chắc chắn muốn thuê xe này không!")) {
+            document.getElementById("form_thue").submit();
+        }
+    }
+</script>

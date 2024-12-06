@@ -1,0 +1,24 @@
+@{
+    var list = TempData["listCar"] as List<TblPhuongTien>;
+}
+
+<div class="container">
+    <div class="row">
+        @foreach(var car in list) {
+            <div class="col-4 px-3 my-2">
+                <a class="card px-3 py-4 text-decoration-none text-black" asp-controller="Car" asp-action="CarDetail" asp-route-id="@car.IMaPhuongTien">
+                    <img src="@car.sDuongDan" alt="" style="width: 100%; height: 200px; object-fit: cover;">
+                    <p style="margin-top: 10px; font-weight: bold; font-size: 20px;">Tên xe: @car.STenPhuongTien</p>
+                    <p>Biển số: @car.SBienSoXe</p>
+                    <p>Giá thuê theo ngày: @car.FGiaChoThue VNĐ</p>
+                    <p>Loại xe: @car.IMaLoaiPhuongTienNavigation.SLoaiPhuongTien</p>
+                    @if(car.sTrangThai == false) {
+                        <p class="alert alert-success">Có sẵn</p>
+                    } else {
+                        <p class="alert alert-danger">Đã được thuê</p>
+                    }
+                </a>
+            </div>
+        }
+    </div>
+</div>
