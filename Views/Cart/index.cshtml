@@ -1,35 +1,108 @@
 @{
     var list = TempData["listCar"] as List<TblPhuongTien>;
+    double tongTien = 0;
+    int index = 0;
+    foreach (var car in list)
+    {
+        tongTien += car.FGiaChoThue ?? 0;
+    }
 }
-
+<div class="header text-end">
+    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Xem hóa đơn</button>
+</div>
 <div class="container">
 
-        @foreach (var car in list)
-        {
-                <a class="card px-3 py-4 text-decoration-none text-black my-3" asp-controller="Car"
-                    asp-action="CarDetail" asp-route-id="@car.IMaPhuongTien">
-                    <div class="row">
-                        <div class="col-4 d-flex align-items-center">
-                            <img src="@car.sDuongDan" alt="" style="width: 100%; max-height: 200px; object-fit: cover;">
-                        </div>
-                        <div class="col-8">
-                            <p style="margin-top: 10px; font-weight: bold; font-size: 20px;">Tên xe: @car.STenPhuongTien</p>
-                            <p>Biển số: @car.SBienSoXe</p>
-                            <p>Giá thuê theo ngày: @car.FGiaChoThue VNĐ</p>
-                            <p>Loại xe: @car.IMaLoaiPhuongTienNavigation.SLoaiPhuongTien</p>
-                            @if (car.sTrangThai == false)
-                            {
-                                <p class="alert alert-success">Có sẵn</p>
-                            }
-                            else
-                            {
-                                <p class="alert alert-danger">Đã được thuê</p>
-                            }
-                        </div>
+    @foreach (var car in list)
+    {
+        <a class="card px-3 py-4 text-decoration-none text-black my-3" asp-controller="Car" asp-action="CarDetail"
+            asp-route-id="@car.IMaPhuongTien">
+            <div class="row">
+                <div class="col-4 d-flex align-items-center">
+                    <img src="@car.sDuongDan" alt="" style="width: 100%; max-height: 200px; object-fit: cover;">
+                </div>
+                <div class="col-8">
+                    <p style="margin-top: 10px; font-weight: bold; font-size: 20px;">Tên xe: @car.STenPhuongTien</p>
+                    <p>Biển số: @car.SBienSoXe</p>
+                    <p>Giá thuê theo ngày: @car.FGiaChoThue VNĐ</p>
+                    <p>Loại xe: @car.IMaLoaiPhuongTienNavigation.SLoaiPhuongTien</p>
+                    @if (car.sTrangThai == false)
+                    {
+                        <p class="alert alert-success">Có sẵn</p>
+                    }
+                    else
+                    {
+                        <p class="alert alert-danger">Đã được thuê</p>
+                    }
+                </div>
+            </div>
+
+
+        </a>
+    }
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-body">
+            <div class="container bg-white pb-5 px-5 pt-4">
+                <p class="m-0 fw-bold">CÔNG TY TNHH CÔNG TY TNHH DỊCH VỤ KINH DOANH VĂN MINH</p>
+                <p class="m-0">Địa chỉ: Số 143 Trần Phú, Phường Văn Quán, Quận Hà Đông, Hà Nội</p>
+                <div class="d-flex justify-content-between">
+                    <span class="m-0">Mã số thuế: 0109005486</span>
+                    <span class="m-0 me-5">Số điện thoại: 0966 50 5995 * 0918186822</span>
+                    <span class="ms-5">Email: chothuexe9@gmail.com</span>
+                </div>
+
+                <hr>
+                <h3 class="text-center">HÓA ĐƠN THUÊ XE</h3>
+                <p><span class="fw-bold">Họ tên người thuê: </span>Nguyễn Văn A</p>
+                <p><span class="fw-bold">Địa chỉ:</span> 96 Định Công, Hoàng Mai, Hà Nội</p>
+                <p><span class="fw-bold">Số điện thoại:</span> 0123456789</p>
+                <p><span class="fw-bold">CCCD:</span> 010203004567</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <th>STT</th>
+                        <th>Tên xe</th>
+                        <th>Ngày thuê</th>
+                        <th>Ngày trả</th>
+                        <th>Thành tiền</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var car in list)
+                        {
+                            <tr>
+                                <td>@(++index)</td>
+                                <td>@car.STenPhuongTien</td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">@car.FGiaChoThue</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" class="text-center fw-bold">Tổng tiền</td>
+                            <td class="text-center fw-bold">@tongTien</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="text-center fw-bold mb-0">Người mua</p>
+                        <p class="text-center fst-italic">(Ký, ghi rõ họ tên)</p>
                     </div>
+                    <div class="col-4">
+                        <p class="text-center fw-bold mb-0">Người cho thuê</p>
+                        <p class="text-center fst-italic">(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div class="col-4">
+                        <p class="text-center fw-bold mb-0">Quản lý</p>
+                        <p class="text-center fst-italic">(Ký, ghi rõ họ tên)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-                </a>
-        }
-    
+    </div>
 </div>
